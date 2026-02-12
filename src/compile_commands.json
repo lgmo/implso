@@ -13,9 +13,9 @@
       "threads/start.o",
       "../../threads/start.S"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/start.S",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/threads/start.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/start.S",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/threads/start.o"
   },
   {
     "arguments": [
@@ -40,9 +40,9 @@
       "threads/init.o",
       "../../threads/init.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/init.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/threads/init.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/init.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/threads/init.o"
   },
   {
     "arguments": [
@@ -67,9 +67,9 @@
       "threads/thread.o",
       "../../threads/thread.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/thread.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/threads/thread.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/thread.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/threads/thread.o"
   },
   {
     "arguments": [
@@ -85,9 +85,9 @@
       "threads/switch.o",
       "../../threads/switch.S"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/switch.S",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/threads/switch.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/switch.S",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/threads/switch.o"
   },
   {
     "arguments": [
@@ -112,9 +112,9 @@
       "threads/interrupt.o",
       "../../threads/interrupt.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/interrupt.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/threads/interrupt.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/interrupt.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/threads/interrupt.o"
   },
   {
     "arguments": [
@@ -130,9 +130,9 @@
       "threads/intr-stubs.o",
       "../../threads/intr-stubs.S"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/intr-stubs.S",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/threads/intr-stubs.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/intr-stubs.S",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/threads/intr-stubs.o"
   },
   {
     "arguments": [
@@ -157,9 +157,9 @@
       "threads/synch.o",
       "../../threads/synch.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/synch.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/threads/synch.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/synch.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/threads/synch.o"
   },
   {
     "arguments": [
@@ -184,9 +184,9 @@
       "threads/palloc.o",
       "../../threads/palloc.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/palloc.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/threads/palloc.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/palloc.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/threads/palloc.o"
   },
   {
     "arguments": [
@@ -211,9 +211,9 @@
       "threads/malloc.o",
       "../../threads/malloc.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/malloc.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/threads/malloc.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/malloc.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/threads/malloc.o"
   },
   {
     "arguments": [
@@ -238,9 +238,9 @@
       "devices/pit.o",
       "../../devices/pit.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/pit.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/pit.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/pit.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/pit.o"
   },
   {
     "arguments": [
@@ -265,9 +265,9 @@
       "devices/timer.o",
       "../../devices/timer.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/timer.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/timer.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/timer.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/timer.o"
   },
   {
     "arguments": [
@@ -292,9 +292,9 @@
       "devices/kbd.o",
       "../../devices/kbd.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/kbd.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/kbd.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/kbd.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/kbd.o"
   },
   {
     "arguments": [
@@ -319,9 +319,9 @@
       "devices/vga.o",
       "../../devices/vga.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/vga.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/vga.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/vga.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/vga.o"
   },
   {
     "arguments": [
@@ -346,9 +346,9 @@
       "devices/serial.o",
       "../../devices/serial.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/serial.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/serial.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/serial.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/serial.o"
   },
   {
     "arguments": [
@@ -373,9 +373,9 @@
       "devices/block.o",
       "../../devices/block.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/block.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/block.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/block.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/block.o"
   },
   {
     "arguments": [
@@ -400,9 +400,9 @@
       "devices/partition.o",
       "../../devices/partition.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/partition.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/partition.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/partition.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/partition.o"
   },
   {
     "arguments": [
@@ -427,9 +427,9 @@
       "devices/ide.o",
       "../../devices/ide.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/ide.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/ide.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/ide.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/ide.o"
   },
   {
     "arguments": [
@@ -454,9 +454,9 @@
       "devices/input.o",
       "../../devices/input.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/input.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/input.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/input.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/input.o"
   },
   {
     "arguments": [
@@ -481,9 +481,9 @@
       "devices/intq.o",
       "../../devices/intq.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/intq.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/intq.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/intq.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/intq.o"
   },
   {
     "arguments": [
@@ -508,9 +508,9 @@
       "devices/rtc.o",
       "../../devices/rtc.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/rtc.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/rtc.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/rtc.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/rtc.o"
   },
   {
     "arguments": [
@@ -535,9 +535,9 @@
       "devices/shutdown.o",
       "../../devices/shutdown.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/shutdown.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/shutdown.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/shutdown.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/shutdown.o"
   },
   {
     "arguments": [
@@ -562,9 +562,9 @@
       "devices/speaker.o",
       "../../devices/speaker.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/devices/speaker.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/devices/speaker.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/devices/speaker.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/devices/speaker.o"
   },
   {
     "arguments": [
@@ -589,9 +589,9 @@
       "lib/debug.o",
       "../../lib/debug.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/debug.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/debug.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/debug.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/debug.o"
   },
   {
     "arguments": [
@@ -616,9 +616,9 @@
       "lib/random.o",
       "../../lib/random.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/random.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/random.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/random.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/random.o"
   },
   {
     "arguments": [
@@ -643,9 +643,9 @@
       "lib/stdio.o",
       "../../lib/stdio.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/stdio.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/stdio.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/stdio.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/stdio.o"
   },
   {
     "arguments": [
@@ -670,9 +670,9 @@
       "lib/stdlib.o",
       "../../lib/stdlib.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/stdlib.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/stdlib.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/stdlib.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/stdlib.o"
   },
   {
     "arguments": [
@@ -697,9 +697,9 @@
       "lib/string.o",
       "../../lib/string.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/string.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/string.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/string.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/string.o"
   },
   {
     "arguments": [
@@ -724,9 +724,9 @@
       "lib/arithmetic.o",
       "../../lib/arithmetic.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/arithmetic.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/arithmetic.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/arithmetic.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/arithmetic.o"
   },
   {
     "arguments": [
@@ -751,9 +751,9 @@
       "lib/ustar.o",
       "../../lib/ustar.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/ustar.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/ustar.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/ustar.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/ustar.o"
   },
   {
     "arguments": [
@@ -778,9 +778,9 @@
       "lib/kernel/debug.o",
       "../../lib/kernel/debug.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/kernel/debug.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/kernel/debug.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/kernel/debug.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/kernel/debug.o"
   },
   {
     "arguments": [
@@ -805,9 +805,9 @@
       "lib/kernel/list.o",
       "../../lib/kernel/list.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/kernel/list.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/kernel/list.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/kernel/list.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/kernel/list.o"
   },
   {
     "arguments": [
@@ -832,9 +832,9 @@
       "lib/kernel/bitmap.o",
       "../../lib/kernel/bitmap.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/kernel/bitmap.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/kernel/bitmap.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/kernel/bitmap.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/kernel/bitmap.o"
   },
   {
     "arguments": [
@@ -859,9 +859,9 @@
       "lib/kernel/hash.o",
       "../../lib/kernel/hash.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/kernel/hash.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/kernel/hash.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/kernel/hash.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/kernel/hash.o"
   },
   {
     "arguments": [
@@ -886,9 +886,9 @@
       "lib/kernel/console.o",
       "../../lib/kernel/console.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/lib/kernel/console.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/lib/kernel/console.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/lib/kernel/console.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/lib/kernel/console.o"
   },
   {
     "arguments": [
@@ -913,9 +913,9 @@
       "tests/threads/tests.o",
       "../../tests/threads/tests.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/tests.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/tests.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/tests.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/tests.o"
   },
   {
     "arguments": [
@@ -940,9 +940,9 @@
       "tests/threads/alarm-wait.o",
       "../../tests/threads/alarm-wait.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/alarm-wait.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/alarm-wait.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/alarm-wait.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/alarm-wait.o"
   },
   {
     "arguments": [
@@ -967,9 +967,9 @@
       "tests/threads/alarm-simultaneous.o",
       "../../tests/threads/alarm-simultaneous.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/alarm-simultaneous.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/alarm-simultaneous.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/alarm-simultaneous.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/alarm-simultaneous.o"
   },
   {
     "arguments": [
@@ -994,9 +994,9 @@
       "tests/threads/alarm-priority.o",
       "../../tests/threads/alarm-priority.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/alarm-priority.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/alarm-priority.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/alarm-priority.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/alarm-priority.o"
   },
   {
     "arguments": [
@@ -1021,9 +1021,9 @@
       "tests/threads/alarm-zero.o",
       "../../tests/threads/alarm-zero.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/alarm-zero.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/alarm-zero.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/alarm-zero.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/alarm-zero.o"
   },
   {
     "arguments": [
@@ -1048,9 +1048,9 @@
       "tests/threads/alarm-negative.o",
       "../../tests/threads/alarm-negative.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/alarm-negative.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/alarm-negative.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/alarm-negative.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/alarm-negative.o"
   },
   {
     "arguments": [
@@ -1075,9 +1075,9 @@
       "tests/threads/priority-change.o",
       "../../tests/threads/priority-change.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-change.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-change.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-change.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-change.o"
   },
   {
     "arguments": [
@@ -1102,9 +1102,9 @@
       "tests/threads/priority-donate-one.o",
       "../../tests/threads/priority-donate-one.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-donate-one.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-donate-one.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-donate-one.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-donate-one.o"
   },
   {
     "arguments": [
@@ -1129,9 +1129,9 @@
       "tests/threads/priority-donate-multiple.o",
       "../../tests/threads/priority-donate-multiple.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-donate-multiple.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-donate-multiple.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-donate-multiple.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-donate-multiple.o"
   },
   {
     "arguments": [
@@ -1156,9 +1156,9 @@
       "tests/threads/priority-donate-multiple2.o",
       "../../tests/threads/priority-donate-multiple2.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-donate-multiple2.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-donate-multiple2.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-donate-multiple2.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-donate-multiple2.o"
   },
   {
     "arguments": [
@@ -1183,9 +1183,9 @@
       "tests/threads/priority-donate-nest.o",
       "../../tests/threads/priority-donate-nest.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-donate-nest.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-donate-nest.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-donate-nest.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-donate-nest.o"
   },
   {
     "arguments": [
@@ -1210,9 +1210,9 @@
       "tests/threads/priority-donate-sema.o",
       "../../tests/threads/priority-donate-sema.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-donate-sema.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-donate-sema.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-donate-sema.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-donate-sema.o"
   },
   {
     "arguments": [
@@ -1237,9 +1237,9 @@
       "tests/threads/priority-donate-lower.o",
       "../../tests/threads/priority-donate-lower.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-donate-lower.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-donate-lower.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-donate-lower.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-donate-lower.o"
   },
   {
     "arguments": [
@@ -1264,9 +1264,9 @@
       "tests/threads/priority-fifo.o",
       "../../tests/threads/priority-fifo.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-fifo.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-fifo.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-fifo.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-fifo.o"
   },
   {
     "arguments": [
@@ -1291,9 +1291,9 @@
       "tests/threads/priority-preempt.o",
       "../../tests/threads/priority-preempt.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-preempt.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-preempt.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-preempt.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-preempt.o"
   },
   {
     "arguments": [
@@ -1318,9 +1318,9 @@
       "tests/threads/priority-sema.o",
       "../../tests/threads/priority-sema.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-sema.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-sema.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-sema.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-sema.o"
   },
   {
     "arguments": [
@@ -1345,9 +1345,9 @@
       "tests/threads/priority-condvar.o",
       "../../tests/threads/priority-condvar.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-condvar.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-condvar.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-condvar.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-condvar.o"
   },
   {
     "arguments": [
@@ -1372,9 +1372,9 @@
       "tests/threads/priority-donate-chain.o",
       "../../tests/threads/priority-donate-chain.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/priority-donate-chain.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/priority-donate-chain.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/priority-donate-chain.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/priority-donate-chain.o"
   },
   {
     "arguments": [
@@ -1399,9 +1399,9 @@
       "tests/threads/mlfqs-load-1.o",
       "../../tests/threads/mlfqs-load-1.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/mlfqs-load-1.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/mlfqs-load-1.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/mlfqs-load-1.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/mlfqs-load-1.o"
   },
   {
     "arguments": [
@@ -1426,9 +1426,9 @@
       "tests/threads/mlfqs-load-60.o",
       "../../tests/threads/mlfqs-load-60.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/mlfqs-load-60.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/mlfqs-load-60.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/mlfqs-load-60.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/mlfqs-load-60.o"
   },
   {
     "arguments": [
@@ -1453,9 +1453,9 @@
       "tests/threads/mlfqs-load-avg.o",
       "../../tests/threads/mlfqs-load-avg.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/mlfqs-load-avg.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/mlfqs-load-avg.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/mlfqs-load-avg.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/mlfqs-load-avg.o"
   },
   {
     "arguments": [
@@ -1480,9 +1480,9 @@
       "tests/threads/mlfqs-recent-1.o",
       "../../tests/threads/mlfqs-recent-1.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/mlfqs-recent-1.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/mlfqs-recent-1.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/mlfqs-recent-1.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/mlfqs-recent-1.o"
   },
   {
     "arguments": [
@@ -1507,9 +1507,9 @@
       "tests/threads/mlfqs-fair.o",
       "../../tests/threads/mlfqs-fair.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/mlfqs-fair.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/mlfqs-fair.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/mlfqs-fair.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/mlfqs-fair.o"
   },
   {
     "arguments": [
@@ -1534,9 +1534,9 @@
       "tests/threads/mlfqs-block.o",
       "../../tests/threads/mlfqs-block.c"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/tests/threads/mlfqs-block.c",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/tests/threads/mlfqs-block.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/tests/threads/mlfqs-block.c",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/tests/threads/mlfqs-block.o"
   },
   {
     "arguments": [
@@ -1551,8 +1551,8 @@
       "threads/loader.o",
       "../../threads/loader.S"
     ],
-    "directory": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build",
-    "file": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/loader.S",
-    "output": "/home/lgmo/workspaces/studies/implso/PintOS-20260208T015414Z-1-001/PintOS/pintos2023/pintos/src/threads/build/threads/loader.o"
+    "directory": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build",
+    "file": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/loader.S",
+    "output": "/home/lgmo/workspaces/studies/implso/pintos/src/threads/build/threads/loader.o"
   }
 ]
