@@ -1,0 +1,20 @@
+---
+Language: Cpp # O clangd usa 'Cpp' como categoria para C e C++
+BasedOnStyle: GNU
+IndentWidth: 2
+TabWidth: 8
+UseTab: Never
+ColumnLimit: 80
+
+# Ajustes específicos para o estilo do Pintos/C ANSI
+BreakBeforeBraces: GNU
+AlwaysBreakAfterReturnType: None
+AlignAfterOpenBracket: Align
+ContinueStatementBracket: true
+
+# Impede que o clang-format tente "corrigir" comentários de bloco
+ReflowComments: false
+
+# Garante que macros como UNUSED e NO_INLINE não confundam o formatador
+AttributeMacros: [UNUSED, NO_INLINE]
+---

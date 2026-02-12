@@ -2,3 +2,39 @@ cscope.files
 cscope.out
 TAGS
 tags
+
+# Temporary files created by text editors (e.g., Vim swap files)
+*~
+.*.sw?
+.sw?
+
+# Build artifacts and directories
+# This is a generic pattern for build directories
+build/
+# Common intermediate file extensions
+*.o
+*.obj
+*.out
+*.exe
+
+# Clangd specific cache directory
+# The clangd language server often generates an index cache here
+.cache/
+.cache/clangd/
+
+# CMake related files (if using CMake with Clang)
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Compiled binary addons (if applicable, e.g. Node.js projects)
+build/Release
+
+# OS-specific temporary files
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# VS Code or other IDE specific files if they aren't meant to be shared
+.vscode/
+.vs/

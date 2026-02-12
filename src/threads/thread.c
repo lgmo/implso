@@ -28,6 +28,9 @@ static struct list ready_list;
    when they are first scheduled and removed when they exit. */
 static struct list all_list;
 
+/* List of processes sleeping. */
+static struct list sleeping_list;
+
 /* Idle thread. */
 static struct thread *idle_thread;
 
@@ -92,6 +95,7 @@ thread_init (void)
   lock_init (&tid_lock);
   list_init (&ready_list);
   list_init (&all_list);
+  list_init (&sleeping_list);
 
   /* Set up a thread structure for the running thread. */
   initial_thread = running_thread ();
@@ -577,6 +581,37 @@ allocate_tid (void)
   lock_release (&tid_lock);
 
   return tid;
+}
+
+/* Puts thread to sleep */
+void
+thread_puts_to_sleep (struct thread *t, int ticks)
+{
+  t->sleeping_ticks = ticks;
+  list_push_back (&sleeping_list, &t->elem);
+  thread_block();
+}
+
+void
+thread_wake_up_threads (void)
+{
+  struct list_elem *e = list_begin (&sleeping_list);
+
+  while (e != list_end (&sleeping_list))
+    {
+      struct thread *t = list_entry (e, struct thread, elem);
+      struct list_elem *next = list_next (e);
+
+      t->sleeping_ticks--;
+
+      if (t->sleeping_ticks <= 0)
+        {
+          list_remove (&t->elem);
+          thread_unblock (t);
+        }
+
+      e = next;
+    }
 }
 
 /* Offset of `stack' member within `struct thread'.
