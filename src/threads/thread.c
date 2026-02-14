@@ -4,6 +4,7 @@
 #include <random.h>
 #include <stdio.h>
 #include <string.h>
+#include "list.h"
 #include "threads/flags.h"
 #include "threads/interrupt.h"
 #include "threads/intr-stubs.h"
@@ -19,6 +20,7 @@
    Used to detect stack overflow.  See the big comment at the top
    of thread.h for details. */
 #define THREAD_MAGIC 0xcd6abf4b
+#define max(x,y) x <= y ? y : x
 
 /* List of processes in THREAD_READY state, that is, processes
    that are ready to run but not actually running. */
@@ -359,7 +361,21 @@ thread_foreach (thread_action_func *func, void *aux)
 void
 thread_set_priority (int new_priority) 
 {
-  thread_current ()->priority = new_priority;
+    bool should_yield;
+    struct thread *t, *donor;
+    enum intr_level old_level = intr_disable();
+    t = thread_current();
+    t->original_priority = new_priority;
+    t->priority = new_priority;
+    if (!list_empty(&t->donor_threads)) {
+      list_sort(&t->donor_threads, thread_donor_cmp, NULL);
+      donor = list_entry(list_front(&t->donor_threads), struct thread, donor_elem);
+
+      t->priority = max(t->priority, donor->priority);
+    }
+    should_yield = !list_empty(&ready_list) && t->priority < list_entry(list_front(&ready_list), struct thread, elem) -> priority;
+    intr_set_level(old_level);
+    if (should_yield) thread_yield();
 }
 
 /* Returns the current thread's priority. */
@@ -610,7 +626,7 @@ void
 thread_puts_to_sleep (struct thread *t, int ticks)
 {
   t->sleeping_ticks = ticks;
-  list_push_back (&sleeping_list, &t->elem);
+  list_push_back (&sleeping_list, &t->sleep_elem);
   thread_block();
 }
 
@@ -621,14 +637,14 @@ thread_wake_up_threads (void)
 
   while (e != list_end (&sleeping_list))
     {
-      struct thread *t = list_entry (e, struct thread, elem);
+      struct thread *t = list_entry (e, struct thread, sleep_elem);
       struct list_elem *next = list_next (e);
 
       t->sleeping_ticks--;
 
       if (t->sleeping_ticks <= 0)
         {
-          list_remove (&t->elem);
+          list_remove (&t->sleep_elem);
           thread_unblock (t);
         }
 
