@@ -1,0 +1,9 @@
+FAIL tests/userprog/exec-bad-ptr
+FAIL tests/userprog/rox-simple
+FAIL tests/userprog/rox-child
+FAIL tests/userprog/rox-multichild
+FAIL tests/userprog/no-vm/multi-oom
+FAIL tests/filesys/base/lg-random
+FAIL tests/filesys/base/sm-random
+FAIL tests/filesys/base/syn-remove
+FAIL tests/filesys/base/syn-write

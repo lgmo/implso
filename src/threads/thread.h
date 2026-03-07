@@ -4,6 +4,9 @@
 #include <debug.h>
 #include <list.h>
 #include <stdint.h>
+#include "threads/synch.h"
+
+struct file;
 
 /* States in a thread's life cycle. */
 enum thread_status
@@ -23,6 +26,23 @@ typedef int tid_t;
 #define PRI_MIN 0                       /* Lowest priority. */
 #define PRI_DEFAULT 31                  /* Default priority. */
 #define PRI_MAX 63                      /* Highest priority. */
+
+struct exit_state {
+    tid_t tid;
+    struct semaphore exit_wait;
+    struct semaphore load_wait;
+    struct list_elem exit_elem;
+    int exit_status;
+    bool load_success;
+    bool waiting;
+    bool exited;
+};
+
+struct fd_entry {
+    int fd;
+    struct file *file;
+    struct list_elem elem;
+};
 
 /* A kernel thread or user process.
 
@@ -99,6 +119,11 @@ struct thread
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
 
+    struct list children_exit_state;
+    struct exit_state *exit_state;
+    struct list fd_table;
+    int next_fd;
+    struct file *exe;
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
     uint32_t *pagedir;                  /* Page directory. */

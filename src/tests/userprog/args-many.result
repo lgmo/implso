@@ -1,0 +1,5 @@
+FAIL
+Kernel panic in run: PANIC at ../../threads/init.c:330 in run_actions(): unknown action `a' (use -h for help)
+Call stack: 0xc0029d97
+Translation of call stack:
+0xc0029d97: debug_panic (.../../lib/kernel/debug.c:38)

@@ -4,6 +4,7 @@
 #include <random.h>
 #include <stdio.h>
 #include <string.h>
+#include "lib/kernel/list.h"
 #include "list.h"
 #include "threads/flags.h"
 #include "threads/interrupt.h"
@@ -505,6 +506,9 @@ init_thread (struct thread *t, const char *name, int priority)
   t->original_priority = priority;
   t->magic = THREAD_MAGIC;
   list_init (&t->donor_threads);
+  list_init (&(t->children_exit_state));
+  list_init (&t->fd_table);
+  t->next_fd = 2;
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);
