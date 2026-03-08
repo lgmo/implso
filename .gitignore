@@ -38,3 +38,4 @@ Thumbs.db # Windows
 # VS Code or other IDE specific files if they aren't meant to be shared
 .vscode/
 .vs/
+src/compile_commands.json
