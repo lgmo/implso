@@ -7,7 +7,7 @@
 #include "threads/interrupt.h"
 #include "threads/synch.h"
 #include "threads/thread.h"
-  
+#include "list.h"
 /* See [8254] for hardware details of the 8254 timer chip. */
 
 #if TIMER_FREQ < 19
@@ -19,6 +19,10 @@
 
 /* Number of timer ticks since OS booted. */
 static int64_t ticks;
+
+
+static struct list sleep_list;
+
 
 /* Number of loops per timer tick.
    Initialized by timer_calibrate(). */
@@ -35,6 +39,7 @@ static void real_time_delay (int64_t num, int32_t denom);
 void
 timer_init (void) 
 {
+  list_init (&sleep_list);
   pit_configure_channel (0, 2, TIMER_FREQ);
   intr_register_ext (0x20, timer_interrupt, "8254 Timer");
 }
@@ -84,13 +89,26 @@ timer_elapsed (int64_t then)
   return timer_ticks () - then;
 }
 
+bool thread_sleep_less (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED){
+  struct thread *thread_a = list_entry(a, struct thread, elem);
+  struct thread *thread_b = list_entry(b, struct thread, elem);
+
+  return thread_a->wakeup_tick < thread_b->wakeup_tick;
+}
+
 /* Sleeps for approximately TICKS timer ticks.  Interrupts must
    be turned on. */
 void
 timer_sleep (int64_t ticks) 
 {
+  enum intr_level old_level = intr_disable ();
   int64_t start = timer_ticks ();
-
+  int64_t wakeup_tick = start + ticks;
+  struct thread *cur = thread_current ();
+  cur->wakeup_tick = wakeup_tick;
+  list_insert_ordered(&sleep_list,&cur->elem, thread_sleep_less, NULL);
+  thread_block ();
+  intr_set_level (old_level);
   ASSERT (intr_get_level () == INTR_ON);
   while (timer_elapsed (start) < ticks) 
     thread_yield ();
@@ -172,6 +190,14 @@ timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
   thread_tick ();
+  while (!list_empty (&sleep_list)){
+    struct thread *t = list_entry(list_front(&sleep_list), struct thread, elem);
+    if (t->wakeup_tick > ticks) break;
+
+    list_pop_front(&sleep_list);
+    thread_unblock(t);
+  }
+  
 }
 
 /* Returns true if LOOPS iterations waits for more than one timer
