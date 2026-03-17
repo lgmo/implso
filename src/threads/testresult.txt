@@ -1,3 +1,0 @@
-cd build && make check
-make[1]: Entrando no diretório '/home/cleber/pintos-linux/pintos2023/pintos/src/threads/build'
-pintos -v -k -T 60 --qemu  -- -q  run alarm-single < /dev/null 2> tests/threads/alarm-single.errors > tests/threads/alarm-single.output
