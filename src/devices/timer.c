@@ -109,9 +109,6 @@ timer_sleep (int64_t ticks)
   list_insert_ordered(&sleep_list,&cur->elem, thread_sleep_less, NULL);
   thread_block ();
   intr_set_level (old_level);
-  ASSERT (intr_get_level () == INTR_ON);
-  while (timer_elapsed (start) < ticks) 
-    thread_yield ();
 }
 
 /* Sleeps for approximately MS milliseconds.  Interrupts must be
