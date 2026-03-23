@@ -90,8 +90,8 @@ timer_elapsed (int64_t then)
 }
 
 bool thread_sleep_less (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED){
-  struct thread *thread_a = list_entry(a, struct thread, elem);
-  struct thread *thread_b = list_entry(b, struct thread, elem);
+  struct thread *thread_a = list_entry(a, struct thread, sleep_elem);
+  struct thread *thread_b = list_entry(b, struct thread, sleep_elem);
 
   return thread_a->wakeup_tick < thread_b->wakeup_tick;
 }
@@ -106,7 +106,7 @@ timer_sleep (int64_t ticks)
   int64_t wakeup_tick = start + ticks;
   struct thread *cur = thread_current ();
   cur->wakeup_tick = wakeup_tick;
-  list_insert_ordered(&sleep_list,&cur->elem, thread_sleep_less, NULL);
+  list_insert_ordered(&sleep_list,&cur->sleep_elem, thread_sleep_less, NULL);
   thread_block ();
   intr_set_level (old_level);
 }
@@ -188,7 +188,7 @@ timer_interrupt (struct intr_frame *args UNUSED)
   ticks++;
   thread_tick ();
   while (!list_empty (&sleep_list)){
-    struct thread *t = list_entry(list_front(&sleep_list), struct thread, elem);
+    struct thread *t = list_entry(list_front(&sleep_list), struct thread, sleep_elem);
     if (t->wakeup_tick > ticks) break;
 
     list_pop_front(&sleep_list);
