@@ -23,6 +23,7 @@ typedef int tid_t;
 #define PRI_MIN 0                       /* Lowest priority. */
 #define PRI_DEFAULT 31                  /* Default priority. */
 #define PRI_MAX 63                      /* Highest priority. */
+#define DONATION_DEPTH 8                /* Maximum depth of priority donation. */
 
 /* A kernel thread or user process.
 
@@ -89,11 +90,16 @@ struct thread
     uint8_t *stack;                     /* Saved stack pointer. */
     int priority;                       /* Priority. */
     int64_t wakeup_tick;                   /* Tick to wake up sleeping thread. */
+    int original_priority;
     struct list_elem allelem;           /* List element for all threads list. */
+    int sleeping_ticks;                 /* Number of sleeping ticks remaining */
+    struct list donor_threads;
+    struct lock *blocking_lock;
+    struct list_elem donor_elem;
+    struct list_elem sleep_elem;
 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
-    struct list_elem sleep_elem;              /* List element. */
 
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
@@ -134,10 +140,14 @@ void thread_foreach (thread_action_func *, void *);
 
 int thread_get_priority (void);
 void thread_set_priority (int);
+void thread_update_priority (struct thread *t);
+void thread_propagate_priority (struct thread *t);
 
 int thread_get_nice (void);
 void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
+void thread_puts_to_sleep (struct thread *t, int ticks);
+void thread_wake_up_threads (void);
 
 #endif /* threads/thread.h */
