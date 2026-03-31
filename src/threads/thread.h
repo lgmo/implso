@@ -147,7 +147,5 @@ int thread_get_nice (void);
 void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
-void thread_puts_to_sleep (struct thread *t, int ticks);
-void thread_wake_up_threads (void);
 
 #endif /* threads/thread.h */
