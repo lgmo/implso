@@ -4,6 +4,8 @@
 #include <random.h>
 #include <stdio.h>
 #include <string.h>
+#include "lib/kernel/list.h"
+#include "list.h"
 #include "threads/flags.h"
 #include "threads/interrupt.h"
 #include "threads/intr-stubs.h"
@@ -19,6 +21,7 @@
    Used to detect stack overflow.  See the big comment at the top
    of thread.h for details. */
 #define THREAD_MAGIC 0xcd6abf4b
+#define max(x,y) x <= y ? y : x
 
 /* List of processes in THREAD_READY state, that is, processes
    that are ready to run but not actually running. */
@@ -70,7 +73,6 @@ static void *alloc_frame (struct thread *, size_t size);
 static void schedule (void);
 void thread_schedule_tail (struct thread *prev);
 static tid_t allocate_tid (void);
-static bool thread_cmp (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED);
 static bool thread_donor_priority_less (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED);
 
 /* Initializes the threading system by transforming the code
@@ -226,10 +228,18 @@ thread_block (void)
   schedule ();
 }
 
-static bool
+bool
 thread_cmp (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED) {
   struct thread *ta = list_entry(a, struct thread, elem);
   struct thread *tb = list_entry(b, struct thread, elem);
+
+  return ta->priority > tb->priority;
+}
+
+bool
+thread_donor_cmp (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED) {
+  struct thread *ta = list_entry(a, struct thread, donor_elem);
+  struct thread *tb = list_entry(b, struct thread, donor_elem);
 
   return ta->priority > tb->priority;
 }
@@ -451,7 +461,7 @@ thread_set_nice (int nice UNUSED)
 int
 thread_get_nice (void) 
 {
-  /* Not yet implemented. */
+  /* Not yet implemented.  */
   return 0;
 }
 
@@ -560,6 +570,9 @@ init_thread (struct thread *t, const char *name, int priority)
   t->original_priority = priority;
   t->magic = THREAD_MAGIC;
   list_init (&t->donor_threads);
+  list_init (&(t->children_exit_state));
+  list_init (&t->fd_table);
+  t->next_fd = 2;
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);

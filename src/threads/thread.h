@@ -4,6 +4,9 @@
 #include <debug.h>
 #include <list.h>
 #include <stdint.h>
+#include "threads/synch.h"
+
+struct file;
 
 /* States in a thread's life cycle. */
 enum thread_status
@@ -24,6 +27,23 @@ typedef int tid_t;
 #define PRI_DEFAULT 31                  /* Default priority. */
 #define PRI_MAX 63                      /* Highest priority. */
 #define DONATION_DEPTH 8                /* Maximum depth of priority donation. */
+
+struct exit_state {
+    tid_t tid;
+    struct semaphore exit_wait;
+    struct semaphore load_wait;
+    struct list_elem exit_elem;
+    int exit_status;
+    bool load_success;
+    bool waiting;
+    bool exited;
+};
+
+struct fd_entry {
+    int fd;
+    struct file *file;
+    struct list_elem elem;
+};
 
 /* A kernel thread or user process.
 
@@ -92,7 +112,6 @@ struct thread
     int64_t wakeup_tick;                   /* Tick to wake up sleeping thread. */
     int original_priority;
     struct list_elem allelem;           /* List element for all threads list. */
-    int sleeping_ticks;                 /* Number of sleeping ticks remaining */
     struct list donor_threads;
     struct lock *blocking_lock;
     struct list_elem donor_elem;
@@ -101,6 +120,11 @@ struct thread
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
 
+    struct list children_exit_state;
+    struct exit_state *exit_state;
+    struct list fd_table;
+    int next_fd;
+    struct file *exe;
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
     uint32_t *pagedir;                  /* Page directory. */
@@ -147,5 +171,7 @@ int thread_get_nice (void);
 void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
+bool thread_cmp (const struct list_elem *a, const struct list_elem *b, void *aux);
+bool thread_donor_cmp (const struct list_elem *a, const struct list_elem *b, void *aux);
 
 #endif /* threads/thread.h */

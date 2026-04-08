@@ -29,8 +29,12 @@
 #include "threads/synch.h"
 #include <stdio.h>
 #include <string.h>
+#include "list.h"
 #include "threads/interrupt.h"
 #include "threads/thread.h"
+
+#define DONATION_DEPTH 8
+#define max(x,y) x <= y ? y : x
 
 /* Initializes semaphore SEMA to VALUE.  A semaphore is a
    nonnegative integer along with two atomic operators for
@@ -68,7 +72,7 @@ sema_down (struct semaphore *sema)
   old_level = intr_disable ();
   while (sema->value == 0) 
     {
-      list_push_back (&sema->waiters, &thread_current ()->elem);
+      list_insert_ordered (&sema->waiters, &thread_current ()->elem, thread_cmp, NULL);
       thread_block ();
     }
   sema->value--;
@@ -131,7 +135,7 @@ sema_up (struct semaphore *sema)
       list_remove (e);
       thread_unblock (t);
 
-      if (t->priority > thread_current ()->priority)
+      if (t->priority > thread_current ()->priority && !intr_context())
         thread_yield ();
     }
 
@@ -220,7 +224,7 @@ lock_acquire (struct lock *lock)
   if (lock->holder) 
     {
       t->blocking_lock = lock;
-      list_push_back (&lock->holder->donor_threads, &t->donor_elem);
+      list_insert_ordered(&lock->holder->donor_threads, &t->donor_elem, thread_donor_cmp, NULL);
       thread_propagate_priority (t);
     }
 
