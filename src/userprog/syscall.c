@@ -48,15 +48,6 @@ exec(const char *cmd_line) {
 }
 
 int
-write (int fd, const void *buffer, unsigned int size) {
-    if (fd == 1) {
-        putbuf(buffer, size);
-        return size;
-    }
-    return -1;
-}
-
-int
 wait(pid_t pid) {
     return process_wait(pid);
 }
@@ -103,7 +94,7 @@ syscall_handler (struct intr_frame *f UNUSED)
             break;
         case SYS_CREATE:
         {
-            validate_pointers(f->esp, 1);
+            validate_pointers(f->esp, 2);
             char *fn = copy_in_string(*(const char **)(f->esp+4));
             if (fn == NULL)
                 exit(-1);
