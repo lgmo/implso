@@ -103,6 +103,16 @@ syscall_handler (struct intr_frame *f UNUSED)
             palloc_free_page(fn);
             break;
         }
+        case SYS_REMOVE:
+        {
+            validate_pointers(f->esp, 1);
+            char *fn = copy_in_string(*(const char **)(f->esp+4));
+            if (fn == NULL)
+                exit(-1);
+            f->eax = filesys_remove(fn);
+            palloc_free_page(fn);
+            break;
+        }
         case SYS_OPEN:
         {
             validate_pointers(f->esp, 1);
