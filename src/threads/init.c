@@ -31,6 +31,7 @@
 #else
 #include "tests/threads/tests.h"
 #endif
+#include "vm/vm.h"
 #ifdef FILESYS
 #include "devices/block.h"
 #include "devices/ide.h"
@@ -98,6 +99,9 @@ main (void)
   palloc_init (user_page_limit);
   malloc_init ();
   paging_init ();
+
+  /* init virtual memory system */
+  vm_init();
 
   /* Segmentation. */
 #ifdef USERPROG

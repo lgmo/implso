@@ -1,9 +1,16 @@
 #include "userprog/exception.h"
 #include <inttypes.h>
 #include <stdio.h>
+#include <userprog/process.h>
+#include "userprog/syscall.h"
 #include "userprog/gdt.h"
+#include "userprog/pagedir.h"
 #include "threads/interrupt.h"
 #include "threads/thread.h"
+#include "threads/vaddr.h"
+#include "threads/palloc.h"
+#include "threads/malloc.h"
+#include "vm/frame_table.h"
 
 /* Number of page faults processed. */
 static long long page_fault_cnt;
@@ -112,6 +119,16 @@ kill (struct intr_frame *f)
     }
 }
 
+static inline bool check_stack_should_grow (struct intr_frame *f, void *fault_addr) {
+    return is_user_vaddr (fault_addr)
+           && fault_addr >= (void *) 0x08048000
+           && fault_addr >= f->esp - 32;
+}
+
+static inline bool check_should_kill (struct intr_frame *f, void *fault_addr) {
+    return fault_addr == NULL || !check_stack_should_grow (f, fault_addr);
+}
+
 /* Page fault handler.  This is a skeleton that must be filled in
    to implement virtual memory.  Some solutions to project 2 may
    also require modifying this code.
@@ -155,6 +172,35 @@ page_fault (struct intr_frame *f)
   /* To implement virtual memory, delete the rest of the function
      body, and replace it with code that brings in the page to
      which fault_addr refers. */
+
+  if (user) {
+    if (!not_present || check_should_kill(f, fault_addr)) {
+        exit(-1);
+    }
+
+
+    void *kpage = palloc_get_page(PAL_USER | PAL_ZERO);
+
+    if (!kpage) {
+        exit(-1);
+    }
+
+    struct frame_table_entry *fte = (struct frame_table_entry *) malloc (sizeof *fte);
+    fte->frame = kpage;
+    fte->owner = thread_current();
+    list_push_back(&frame_table, &(fte->elem));
+
+    void *upage = pg_round_down(fault_addr);
+
+    if (!install_page (upage, kpage, true)) {
+      list_remove (&fte->elem);
+      free (fte);
+      palloc_free_page (kpage);
+      exit (-1);
+    }
+    return;
+  }
+
   printf ("Page fault at %p: %s error %s page in %s context.\n",
           fault_addr,
           not_present ? "not present" : "rights violation",
