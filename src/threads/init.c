@@ -100,9 +100,6 @@ main (void)
   malloc_init ();
   paging_init ();
 
-  /* init virtual memory system */
-  vm_init();
-
   /* Segmentation. */
 #ifdef USERPROG
   tss_init ();
@@ -128,6 +125,10 @@ main (void)
   /* Initialize file system. */
   ide_init ();
   locate_block_devices ();
+
+  /* Initialize virtual memory after block devices are discovered,
+     so swap can bind to BLOCK_SWAP and initialize its lock/bitmap. */
+  vm_init ();
   filesys_init (format_filesys);
 #endif
 

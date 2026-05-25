@@ -1,6 +1,7 @@
 #include "userprog/syscall.h"
 #include <debug.h>
 #include <stdio.h>
+#include <string.h>
 #include <syscall-nr.h>
 #include "threads/malloc.h"
 #include "devices/input.h"
@@ -14,13 +15,29 @@
 #include "userprog/pagedir.h"
 #include "userprog/process.h"
 #include "userprog/userptr.h"
+#include "vm/memory_mapping.h"
+#include "vm/sup_page_table.h"
 
 static void syscall_handler (struct intr_frame *);
+static struct lock filesys_lock;
 
 void
 syscall_init (void) 
 {
+  lock_init (&filesys_lock);
   intr_register_int (0x30, 3, INTR_ON, syscall_handler, "syscall");
+}
+
+void
+filesys_lock_acquire (void)
+{
+    lock_acquire (&filesys_lock);
+}
+
+void
+filesys_lock_release (void)
+{
+    lock_release (&filesys_lock);
 }
 
 void
@@ -53,6 +70,7 @@ wait(pid_t pid) {
 }
 
 static bool check_user_buffer (const void *buffer, unsigned size);
+static bool check_user_buffer_writable (const void *buffer, unsigned size);
 
 void validate_pointers(void *base_ptr, unsigned int count) {
     if (count == 0)
@@ -66,6 +84,8 @@ static struct fd_entry *fd_lookup (int fd);
 static void fd_close (struct fd_entry *);
 static int read_from_fd (int fd, void *buffer, unsigned size);
 static int write_to_fd (int fd, const void *buffer, unsigned size);
+static mapid_t mmap_file (int fd, void *addr);
+static void munmap_file (mapid_t mapid);
 
 static void
 syscall_handler (struct intr_frame *f UNUSED) 
@@ -99,7 +119,9 @@ syscall_handler (struct intr_frame *f UNUSED)
             if (fn == NULL)
                 exit(-1);
             int initial_size = *(int*)(f->esp+8);
+            filesys_lock_acquire ();
             f->eax = filesys_create(fn, initial_size);
+            filesys_lock_release ();
             palloc_free_page(fn);
             break;
         }
@@ -109,7 +131,9 @@ syscall_handler (struct intr_frame *f UNUSED)
             char *fn = copy_in_string(*(const char **)(f->esp+4));
             if (fn == NULL)
                 exit(-1);
+            filesys_lock_acquire ();
             f->eax = filesys_remove(fn);
+            filesys_lock_release ();
             palloc_free_page(fn);
             break;
         }
@@ -119,6 +143,7 @@ syscall_handler (struct intr_frame *f UNUSED)
             char *fn = copy_in_string(*(const char **)(f->esp+4));
             if (fn == NULL)
                 exit(-1);
+            filesys_lock_acquire ();
             struct file *file = filesys_open(fn);
             f->eax = -1;
             if (file != NULL) {
@@ -128,6 +153,7 @@ syscall_handler (struct intr_frame *f UNUSED)
                 else
                     file_close(file);
             }
+            filesys_lock_release ();
             palloc_free_page(fn);
             break;
         }
@@ -136,7 +162,9 @@ syscall_handler (struct intr_frame *f UNUSED)
             validate_pointers(f->esp, 1);
             struct fd_entry *entry = fd_lookup(*(int*)(f->esp+4));
             if (entry != NULL) {
+                filesys_lock_acquire ();
                 fd_close(entry);
+                filesys_lock_release ();
                 f->eax = 0;
             } else {
                 f->eax = -1;
@@ -153,7 +181,14 @@ syscall_handler (struct intr_frame *f UNUSED)
         {
             validate_pointers(f->esp, 1);
             struct fd_entry *entry = fd_lookup(*(int*)(f->esp+4));
-            f->eax = entry != NULL ? file_length(entry->file) : -1;
+            if (entry != NULL)
+                {
+                    filesys_lock_acquire ();
+                    f->eax = file_length(entry->file);
+                    filesys_lock_release ();
+                }
+            else
+                f->eax = -1;
             break;
         }
         case SYS_WRITE:
@@ -167,19 +202,153 @@ syscall_handler (struct intr_frame *f UNUSED)
             unsigned position = *(unsigned*)(f->esp+8);
             struct fd_entry *entry = fd_lookup(fd);
             if (entry != NULL)
-                file_seek(entry->file, position);
+                {
+                    filesys_lock_acquire ();
+                    file_seek(entry->file, position);
+                    filesys_lock_release ();
+                }
             break;
         }
         case SYS_TELL:
         {
             validate_pointers(f->esp, 1);
             struct fd_entry *entry = fd_lookup(*(int*)(f->esp+4));
-            f->eax = entry != NULL ? file_tell(entry->file) : -1;
+            if (entry != NULL)
+                {
+                    filesys_lock_acquire ();
+                    f->eax = file_tell(entry->file);
+                    filesys_lock_release ();
+                }
+            else
+                f->eax = -1;
+            break;
+        }
+        case SYS_MMAP:
+        {
+            validate_pointers (f->esp, 2);
+            f->eax = mmap_file (*(int *)(f->esp + 4), *(void **)(f->esp + 8));
+            break;
+        }
+        case SYS_MUNMAP:
+        {
+            validate_pointers (f->esp, 1);
+            munmap_file (*(int *)(f->esp + 4));
             break;
         }
         default:
             break;
   }
+}
+
+static void
+munmap_file (mapid_t mapid)
+{
+    struct thread *cur = thread_current ();
+    struct memory_mapping *mapping = memory_mapping_find (&cur->mmap_table, mapid);
+
+    if (mapping == NULL)
+        return;
+
+    memory_mapping_table_remove (mapping);
+    memory_mapping_unmap (cur, mapping);
+}
+
+static mapid_t
+mmap_file (int fd, void *addr)
+{
+    struct thread *cur = thread_current ();
+    struct fd_entry *entry;
+    struct file *mapping_file;
+    struct memory_mapping *mapping;
+    off_t length;
+    uint8_t *upage;
+    off_t ofs;
+    bool ok = true;
+
+    if (fd <= 1 || addr == NULL || pg_ofs (addr) != 0)
+        return -1;
+
+    entry = fd_lookup (fd);
+    if (entry == NULL)
+        return -1;
+
+    filesys_lock_acquire ();
+    length = file_length (entry->file);
+    filesys_lock_release ();
+    if (length <= 0)
+        return -1;
+
+    filesys_lock_acquire ();
+    mapping_file = file_reopen (entry->file);
+    filesys_lock_release ();
+    if (mapping_file == NULL)
+        return -1;
+
+    mapping = memory_mapping_create (mapping_file, addr, (size_t) length,
+                                     cur->next_mapid++);
+    if (mapping == NULL)
+        {
+            filesys_lock_acquire ();
+            file_close (mapping_file);
+            filesys_lock_release ();
+            return -1;
+        }
+
+    upage = addr;
+    ofs = 0;
+    while (ofs < length)
+        {
+            uint32_t page_read_bytes = (length - ofs) < PGSIZE
+                                           ? (uint32_t)(length - ofs)
+                                           : PGSIZE;
+            uint32_t page_zero_bytes = PGSIZE - page_read_bytes;
+            struct sup_page_table_entry *spte;
+
+            if (sup_page_table_find (upage) != NULL)
+                {
+                    ok = false;
+                    break;
+                }
+
+            spte = sup_page_table_add_file (upage, mapping_file, ofs,
+                                            page_read_bytes, page_zero_bytes,
+                                            true);
+            if (spte == NULL)
+                {
+                    ok = false;
+                    break;
+                }
+            spte->mapping = mapping;
+
+            ofs += page_read_bytes;
+            upage += PGSIZE;
+        }
+
+    if (!ok)
+        {
+            upage = addr;
+            ofs = 0;
+            while (ofs < length)
+                {
+                    struct sup_page_table_entry *spte = sup_page_table_find (upage);
+                    uint32_t page_read_bytes = (length - ofs) < PGSIZE
+                                                   ? (uint32_t)(length - ofs)
+                                                   : PGSIZE;
+                    if (spte != NULL && spte->mapping == mapping)
+                        sup_page_table_remove (spte);
+                    ofs += page_read_bytes;
+                    upage += PGSIZE;
+                }
+
+            filesys_lock_acquire ();
+            file_close (mapping_file);
+            filesys_lock_release ();
+            memory_mapping_destroy (mapping);
+            return -1;
+        }
+
+    memory_mapping_table_push (&cur->mmap_table, mapping);
+    return mapping->mapid;
 }
 
 static struct fd_entry *
@@ -229,9 +398,28 @@ check_user_buffer (const void *buffer, unsigned size)
     const char *ptr = buffer;
     unsigned i;
     for (i = 0; i < size; ++i, ++ptr) {
-        if (ptr == NULL || !is_user_vaddr (ptr) ||
-            pagedir_get_page (cur->pagedir, (void *) ptr) == NULL)
+        if (ptr == NULL || !is_user_vaddr (ptr))
           return false;
+    }
+    return true;
+}
+
+static bool
+check_user_buffer_writable (const void *buffer, unsigned size)
+{
+    if (size == 0)
+        return true;
+
+    struct thread *cur = thread_current ();
+    const char *ptr = buffer;
+    unsigned i;
+    for (i = 0; i < size; ++i, ++ptr) {
+        if (ptr == NULL || !is_user_vaddr (ptr))
+          return false;
+
+        void *kaddr = pagedir_get_page (cur->pagedir, (void *) ptr);
+        if (kaddr != NULL && !pagedir_is_writable (cur->pagedir, (void *) ptr))
+            return false;
     }
     return true;
 }
@@ -241,7 +429,7 @@ read_from_fd (int fd, void *buffer, unsigned size)
 {
     if (size == 0)
         return 0;
-    if (!check_user_buffer (buffer, size))
+    if (!check_user_buffer_writable (buffer, size))
         exit(-1);
     if (fd == 0) {
         unsigned count;
@@ -252,13 +440,27 @@ read_from_fd (int fd, void *buffer, unsigned size)
     struct fd_entry *entry = fd_lookup (fd);
     if (entry == NULL)
         return -1;
+    uint8_t *bounce = malloc (PGSIZE);
+    if (bounce == NULL)
+        exit (-1);
     unsigned total = 0;
     while (total < size) {
-        int chunk = file_read (entry->file, (char *)buffer + total, size - total);
+        unsigned chunk_size = size - total;
+        if (chunk_size > PGSIZE)
+            chunk_size = PGSIZE;
+        filesys_lock_acquire ();
+        int chunk = file_read (entry->file, bounce, chunk_size);
+        filesys_lock_release ();
         if (chunk <= 0)
-            return total > 0 ? total : chunk;
+            break;
+        memcpy ((uint8_t *) buffer + total, bounce, chunk);
         total += chunk;
+        if ((unsigned) chunk < chunk_size)
+            break;
     }
+    free (bounce);
+    if (total == 0)
+        return 0;
     return total;
 }
 
@@ -276,12 +478,24 @@ write_to_fd (int fd, const void *buffer, unsigned size)
     struct fd_entry *entry = fd_lookup (fd);
     if (entry == NULL)
         return -1;
+    uint8_t *bounce = malloc (PGSIZE);
+    if (bounce == NULL)
+        exit (-1);
     unsigned total = 0;
     while (total < size) {
-        int chunk = file_write (entry->file, (const char *)buffer + total, size - total);
+        unsigned chunk_size = size - total;
+        if (chunk_size > PGSIZE)
+            chunk_size = PGSIZE;
+        memcpy (bounce, (const uint8_t *) buffer + total, chunk_size);
+        filesys_lock_acquire ();
+        int chunk = file_write (entry->file, bounce, chunk_size);
+        filesys_lock_release ();
         if (chunk <= 0)
-            return total > 0 ? total : chunk;
+            break;
         total += chunk;
+        if ((unsigned) chunk < chunk_size)
+            break;
     }
+    free (bounce);
     return total;
 }

@@ -8,7 +8,6 @@
 char *
 copy_in_string (const char *ustr)
 {
-  struct thread *cur = thread_current ();
   if (ustr == NULL)
     return NULL;
 
@@ -17,9 +16,9 @@ copy_in_string (const char *ustr)
     return NULL;
 
   unsigned i = 0;
-  while (i < PGSIZE)
+    while (i < PGSIZE)
     {
-      if (!is_user_vaddr (ustr) || pagedir_get_page (cur->pagedir, (void *) ustr) == NULL)
+      if (!is_user_vaddr (ustr))
         {
           palloc_free_page (kpage);
           return NULL;

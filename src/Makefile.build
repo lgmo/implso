@@ -65,6 +65,9 @@ userprog_SRC += userprog/userptr.c	# User-pointer helpers.
 # No virtual memory code yet.
 vm_SRC = vm/vm.c			# Some file.
 vm_SRC += vm/frame_table.c
+vm_SRC += vm/sup_page_table.c
+vm_SRC += vm/swap.c
+vm_SRC += vm/memory_mapping.c
 
 # Filesystem code.
 filesys_SRC  = filesys/filesys.c	# Filesystem core.

@@ -156,6 +156,15 @@ pagedir_clear_page (uint32_t *pd, void *upage)
     }
 }
 
+/* Returns true if the PTE for virtual page VPAGE in PD allows writes.
+   Returns false if PD contains no present PTE for VPAGE. */
+bool
+pagedir_is_writable (uint32_t *pd, const void *vpage)
+{
+  uint32_t *pte = lookup_page (pd, vpage, false);
+  return pte != NULL && (*pte & PTE_P) != 0 && (*pte & PTE_W) != 0;
+}
+
 /* Returns true if the PTE for virtual page VPAGE in PD is dirty,
    that is, if the page has been modified since the PTE was
    installed.

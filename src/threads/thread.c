@@ -572,7 +572,9 @@ init_thread (struct thread *t, const char *name, int priority)
   list_init (&t->donor_threads);
   list_init (&(t->children_exit_state));
   list_init (&t->fd_table);
+  list_init (&t->mmap_table);
   t->next_fd = 2;
+  t->next_mapid = 1;
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);

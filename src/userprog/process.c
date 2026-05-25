@@ -9,6 +9,7 @@
 #include "list.h"
 #include "userprog/gdt.h"
 #include "userprog/pagedir.h"
+#include "userprog/syscall.h"
 #include "userprog/tss.h"
 #include "filesys/directory.h"
 #include "filesys/file.h"
@@ -20,6 +21,9 @@
 #include "threads/malloc.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
+#include "vm/frame_table.h"
+#include "vm/memory_mapping.h"
+#include "vm/sup_page_table.h"
 
 struct start_process_args {
   char *cmd_line;
@@ -100,6 +104,10 @@ start_process (void *file_name_)
   struct exit_state *es = args->exit_state;
   struct intr_frame if_;
   thread_current ()->exit_state = es;
+  thread_current ()->sup_page_table_initialized = false;
+  hash_init (&thread_current ()->sup_page_table, sup_page_hash, sup_page_less,
+             NULL);
+  thread_current ()->sup_page_table_initialized = true;
   bool success;
 
   /* Initialize interrupt frame and load executable. */
@@ -174,10 +182,14 @@ process_exit (void)
   struct thread *cur = thread_current ();
   uint32_t *pd;
 
+  memory_mapping_table_unmap_all (cur, &cur->mmap_table);
+
   if (cur->exe != NULL)
     {
+      filesys_lock_acquire ();
       file_allow_write (cur->exe);
       file_close (cur->exe);
+      filesys_lock_release ();
       cur->exe = NULL;
     }
 
@@ -185,9 +197,13 @@ process_exit (void)
     {
       struct list_elem *e = list_pop_front (&cur->fd_table);
       struct fd_entry *entry = list_entry (e, struct fd_entry, elem);
+      filesys_lock_acquire ();
       file_close (entry->file);
+      filesys_lock_release ();
       free (entry);
     }
+
+  frame_table_remove_owner_frames (cur);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
@@ -204,6 +220,12 @@ process_exit (void)
       cur->pagedir = NULL;
       pagedir_activate (NULL);
       pagedir_destroy (pd);
+    }
+
+  if (cur->sup_page_table_initialized)
+    {
+      sup_page_table_destroy ();
+      cur->sup_page_table_initialized = false;
     }
 }
 
@@ -320,7 +342,9 @@ load (const char *file_name, void (**eip) (void), void **esp)
   if (fn_copy == NULL)
     goto done;
   strlcpy (fn_copy, file_name, PGSIZE);
+  filesys_lock_acquire ();
   file = filesys_open (strtok_r(fn_copy, " ", &save_ptr));
+  filesys_lock_release ();
   palloc_free_page (fn_copy);
   if (file == NULL) 
     {
@@ -331,10 +355,13 @@ load (const char *file_name, void (**eip) (void), void **esp)
   file_deny_write (t->exe);
 
   /* Read and verify executable header. */
+  filesys_lock_acquire ();
   if (file_read (file, &ehdr, sizeof ehdr) != sizeof ehdr)
     {
+      filesys_lock_release ();
       goto done;
     }
+  filesys_lock_release ();
   if (memcmp (ehdr.e_ident, "\177ELF\1\1\1", 7))
     {
       goto done;
@@ -366,16 +393,20 @@ load (const char *file_name, void (**eip) (void), void **esp)
     {
       struct Elf32_Phdr phdr;
 
+      filesys_lock_acquire ();
       if (file_ofs < 0 || file_ofs > file_length (file))
         {
+          filesys_lock_release ();
           goto done;
         }
       file_seek (file, file_ofs);
 
       if (file_read (file, &phdr, sizeof phdr) != sizeof phdr)
         {
+          filesys_lock_release ();
           goto done;
         }
+      filesys_lock_release ();
       file_ofs += sizeof phdr;
       switch (phdr.p_type) 
         {
@@ -459,8 +490,13 @@ validate_segment (const struct Elf32_Phdr *phdr, struct file *file)
     return false; 
 
   /* p_offset must point within FILE. */
-  if (phdr->p_offset > (Elf32_Off) file_length (file)) 
-    return false;
+  filesys_lock_acquire ();
+  if (phdr->p_offset > (Elf32_Off) file_length (file))
+    {
+      filesys_lock_release ();
+      return false;
+    }
+  filesys_lock_release ();
 
   /* p_memsz must be at least as big as p_filesz. */
   if (phdr->p_memsz < phdr->p_filesz) 
@@ -516,7 +552,6 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
   ASSERT (pg_ofs (upage) == 0);
   ASSERT (ofs % PGSIZE == 0);
 
-  file_seek (file, ofs);
   while (read_bytes > 0 || zero_bytes > 0) 
     {
       /* Calculate how to fill this page.
@@ -525,27 +560,13 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
       size_t page_read_bytes = read_bytes < PGSIZE ? read_bytes : PGSIZE;
       size_t page_zero_bytes = PGSIZE - page_read_bytes;
 
-      /* Get a page of memory. */
-      uint8_t *kpage = palloc_get_page (PAL_USER);
-      if (kpage == NULL)
+      /* Register lazy file-backed page in supplemental page table. */
+      if (sup_page_table_add_file (upage, file, ofs, page_read_bytes,
+                                   page_zero_bytes, writable) == NULL)
         return false;
 
-      /* Load this page. */
-      if (file_read (file, kpage, page_read_bytes) != (int) page_read_bytes)
-        {
-          palloc_free_page (kpage);
-          return false; 
-        }
-      memset (kpage + page_read_bytes, 0, page_zero_bytes);
-
-      /* Add the page to the process's address space. */
-      if (!install_page (upage, kpage, writable)) 
-        {
-          palloc_free_page (kpage);
-          return false; 
-        }
-
       /* Advance. */
+      ofs += page_read_bytes;
       read_bytes -= page_read_bytes;
       zero_bytes -= page_zero_bytes;
       upage += PGSIZE;
@@ -559,6 +580,7 @@ static bool
 setup_stack (void **esp, const char *file_name) 
 {
   uint8_t *kpage;
+  void *upage = ((uint8_t *) PHYS_BASE) - PGSIZE;
   int argc = 1;
   char **argv = NULL;
   bool success = false;
@@ -566,8 +588,28 @@ setup_stack (void **esp, const char *file_name)
   kpage = palloc_get_page (PAL_USER | PAL_ZERO);
   if (kpage != NULL) 
     {
-      success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
+      success = install_page (upage, kpage, true);
       if (success) {
+        struct sup_page_table_entry *spte = sup_page_table_add (upage);
+        struct frame_table_entry *fte;
+        if (spte == NULL)
+          {
+            pagedir_clear_page (thread_current ()->pagedir, upage);
+            palloc_free_page (kpage);
+            return false;
+          }
+        fte = frame_table_add ((uint32_t *) kpage);
+        if (fte == NULL)
+          {
+            sup_page_table_remove (spte);
+            pagedir_clear_page (thread_current ()->pagedir, upage);
+            palloc_free_page (kpage);
+            return false;
+          }
+        spte->writable = true;
+        spte->is_loaded = true;
+        fte->aux = spte;
+
         *esp = PHYS_BASE;
         argv = push_arguments (esp, file_name, &argc);
         *esp -= sizeof(char **);
