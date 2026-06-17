@@ -17,6 +17,8 @@
 #include "userprog/userptr.h"
 #include "vm/memory_mapping.h"
 #include "vm/sup_page_table.h"
+#include "filesys/directory.h"
+#include "filesys/inode.h"
 
 static void syscall_handler (struct intr_frame *);
 static struct lock filesys_lock;
@@ -144,14 +146,29 @@ syscall_handler (struct intr_frame *f UNUSED)
             if (fn == NULL)
                 exit(-1);
             filesys_lock_acquire ();
-            struct file *file = filesys_open(fn);
+            struct inode *inode = filesys_open_inode (fn);
             f->eax = -1;
-            if (file != NULL) {
-                struct fd_entry *entry = fd_alloc(file);
-                if (entry != NULL)
-                    f->eax = entry->fd;
-                else
-                    file_close(file);
+            if (inode != NULL) {
+                if (inode_is_dir (inode)) {
+                    struct dir *dir = dir_open (inode);
+                    if (dir != NULL) {
+                        struct fd_entry *entry = fd_alloc (NULL);
+                        if (entry != NULL) {
+                            entry->dir = dir;
+                            f->eax = entry->fd;
+                        } else
+                            dir_close (dir);
+                    }
+                } else {
+                    struct file *file = file_open (inode);
+                    if (file != NULL) {
+                        struct fd_entry *entry = fd_alloc (file);
+                        if (entry != NULL)
+                            f->eax = entry->fd;
+                        else
+                            file_close (file);
+                    }
+                }
             }
             filesys_lock_release ();
             palloc_free_page(fn);
@@ -233,6 +250,71 @@ syscall_handler (struct intr_frame *f UNUSED)
         {
             validate_pointers (f->esp, 1);
             munmap_file (*(int *)(f->esp + 4));
+            break;
+        }
+        case SYS_CHDIR:
+        {
+            validate_pointers(f->esp, 1);
+            char *fn = copy_in_string(*(const char **)(f->esp+4));
+            if (fn == NULL)
+                exit(-1);
+            filesys_lock_acquire ();
+            f->eax = filesys_chdir (fn);
+            filesys_lock_release ();
+            palloc_free_page(fn);
+            break;
+        }
+        case SYS_MKDIR:
+        {
+            validate_pointers(f->esp, 1);
+            char *fn = copy_in_string(*(const char **)(f->esp+4));
+            if (fn == NULL)
+                exit(-1);
+            filesys_lock_acquire ();
+            f->eax = filesys_mkdir (fn);
+            filesys_lock_release ();
+            palloc_free_page(fn);
+            break;
+        }
+        case SYS_READDIR:
+        {
+            validate_pointers(f->esp, 2);
+            int fd_val = *(int*)(f->esp+4);
+            char *name_buf = *(char **)(f->esp+8);
+            if (!check_user_buffer (name_buf, NAME_MAX + 1))
+                exit(-1);
+            struct fd_entry *entry = fd_lookup(fd_val);
+            if (entry == NULL || entry->dir == NULL)
+                f->eax = false;
+            else {
+                filesys_lock_acquire ();
+                f->eax = dir_readdir (entry->dir, name_buf);
+                filesys_lock_release ();
+            }
+            break;
+        }
+        case SYS_ISDIR:
+        {
+            validate_pointers(f->esp, 1);
+            struct fd_entry *entry = fd_lookup(*(int*)(f->esp+4));
+            f->eax = (entry != NULL && entry->dir != NULL);
+            break;
+        }
+        case SYS_INUMBER:
+        {
+            validate_pointers(f->esp, 1);
+            struct fd_entry *entry = fd_lookup(*(int*)(f->esp+4));
+            if (entry == NULL)
+                f->eax = -1;
+            else if (entry->dir != NULL) {
+                filesys_lock_acquire ();
+                f->eax = (int) inode_get_inumber (dir_get_inode (entry->dir));
+                filesys_lock_release ();
+            } else {
+                filesys_lock_acquire ();
+                f->eax = (int) inode_get_inumber (file_get_inode (entry->file));
+                filesys_lock_release ();
+            }
             break;
         }
         default:
@@ -360,6 +442,7 @@ fd_alloc (struct file *file)
         return NULL;
     entry->fd = cur->next_fd++;
     entry->file = file;
+    entry->dir = NULL;
     list_push_back (&cur->fd_table, &entry->elem);
     return entry;
 }
@@ -384,7 +467,10 @@ fd_close (struct fd_entry *entry)
     if (entry == NULL)
         return;
     list_remove (&entry->elem);
-    file_close (entry->file);
+    if (entry->dir != NULL)
+        dir_close (entry->dir);
+    else if (entry->file != NULL)
+        file_close (entry->file);
     free (entry);
 }
 
@@ -440,6 +526,8 @@ read_from_fd (int fd, void *buffer, unsigned size)
     struct fd_entry *entry = fd_lookup (fd);
     if (entry == NULL)
         return -1;
+    if (entry->dir != NULL)
+        return -1;
     uint8_t *bounce = malloc (PGSIZE);
     if (bounce == NULL)
         exit (-1);
@@ -477,6 +565,8 @@ write_to_fd (int fd, const void *buffer, unsigned size)
     }
     struct fd_entry *entry = fd_lookup (fd);
     if (entry == NULL)
+        return -1;
+    if (entry->dir != NULL)
         return -1;
     uint8_t *bounce = malloc (PGSIZE);
     if (bounce == NULL)

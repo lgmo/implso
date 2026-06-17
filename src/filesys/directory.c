@@ -21,12 +21,45 @@ struct dir_entry
     bool in_use;                        /* In use or free? */
   };
 
-/* Creates a directory with space for ENTRY_CNT entries in the
-   given SECTOR.  Returns true if successful, false on failure. */
+/* Creates a directory in SECTOR whose parent is PARENT_SECTOR.
+   Writes the "." and ".." entries.  Returns true if successful. */
 bool
-dir_create (block_sector_t sector, size_t entry_cnt)
+dir_create (block_sector_t sector, block_sector_t parent_sector)
 {
-  return inode_create (sector, entry_cnt * sizeof (struct dir_entry));
+  if (!inode_create (sector, 0))
+    return false;
+
+  struct inode *inode = inode_open (sector);
+  if (inode == NULL)
+    return false;
+  inode_set_dir (inode, true);
+
+  struct dir *dir = dir_open (inode);
+  if (dir == NULL)
+    return false;
+
+  bool ok = dir_add (dir, ".", sector)
+            && dir_add (dir, "..", parent_sector);
+  dir_close (dir);
+  return ok;
+}
+
+/* Returns true if DIR contains no entries other than "." and "..". */
+bool
+dir_is_empty (const struct dir *dir)
+{
+  struct dir_entry e;
+  off_t ofs;
+  for (ofs = 0;
+       inode_read_at (dir->inode, &e, sizeof e, ofs) == sizeof e;
+       ofs += sizeof e)
+    {
+      if (e.in_use
+          && strcmp (e.name, ".") != 0
+          && strcmp (e.name, "..") != 0)
+        return false;
+    }
+  return true;
 }
 
 /* Opens and returns the directory for the given INODE, of which
@@ -226,7 +259,9 @@ dir_readdir (struct dir *dir, char name[NAME_MAX + 1])
   while (inode_read_at (dir->inode, &e, sizeof e, dir->pos) == sizeof e) 
     {
       dir->pos += sizeof e;
-      if (e.in_use)
+      if (e.in_use
+          && strcmp (e.name, ".") != 0
+          && strcmp (e.name, "..") != 0)
         {
           strlcpy (name, e.name, NAME_MAX + 1);
           return true;

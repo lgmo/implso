@@ -9,6 +9,7 @@
 #include "vm/memory_mapping.h"
 
 struct file;
+struct dir;
 
 /* States in a thread's life cycle. */
 enum thread_status
@@ -46,6 +47,7 @@ struct fd_entry
 {
     int fd;
     struct file *file;
+    struct dir *dir;     /* Non-null if this FD is a directory. */
     struct list_elem elem;
 };
 
@@ -134,6 +136,7 @@ struct thread
 
     struct hash sup_page_table;
     bool sup_page_table_initialized;
+    struct dir *cwd;                /* Current working directory. */
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
     uint32_t *pagedir; /* Page directory. */
