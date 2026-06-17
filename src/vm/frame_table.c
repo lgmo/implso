@@ -33,7 +33,7 @@ frame_table_destroy (void)
 }
 
 void
-insert_in_frame_table (struct frame_table_entry *fte)
+frame_table_insert (struct frame_table_entry *fte)
 {
     lock_acquire (&frame_table_lock);
     list_push_back (&frame_table, &(fte->elem));
@@ -41,7 +41,7 @@ insert_in_frame_table (struct frame_table_entry *fte)
 }
 
 struct frame_table_entry *
-add_frame (uint32_t *frame)
+frame_table_add (uint32_t *frame)
 {
     struct frame_table_entry *fte
         = (struct frame_table_entry *)malloc (sizeof *fte);
@@ -50,12 +50,12 @@ add_frame (uint32_t *frame)
     fte->frame = frame;
     fte->owner = thread_current ();
     fte->aux = NULL;
-    insert_in_frame_table (fte);
+    frame_table_insert (fte);
     return fte;
 }
 
 void
-remove_frame (struct frame_table_entry *fte)
+frame_table_remove (struct frame_table_entry *fte)
 {
     lock_acquire (&frame_table_lock);
     list_remove (&fte->elem);
@@ -85,7 +85,7 @@ find_frame (void *frame, struct thread *owner)
 }
 
 bool
-remove_frame_by_kpage (void *frame, struct thread *owner)
+frame_table_remove_by_kpage (void *frame, struct thread *owner)
 {
     struct list_elem *e;
 
@@ -108,7 +108,7 @@ remove_frame_by_kpage (void *frame, struct thread *owner)
 }
 
 struct frame_table_entry *
-pop_lru_frame (void)
+frame_table_pop_lru (void)
 {
     struct list_elem *elem;
     struct frame_table_entry *fte = NULL;
@@ -154,7 +154,7 @@ pop_lru_frame (void)
 }
 
 void
-remove_owner_frames (struct thread *owner)// remove as páginas do thread que vai ser deletado
+frame_table_remove_owner_frames (struct thread *owner)
 {
     struct list_elem *e;
     struct list_elem *next;

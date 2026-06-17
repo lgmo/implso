@@ -39,12 +39,14 @@ unsigned sup_page_hash (const struct hash_elem *elem, void *aux UNUSED);
 
 bool sup_page_less (const struct hash_elem *a, const struct hash_elem *b,
                     void *aux UNUSED);
-struct sup_page_table_entry *add_sup_page (void *fault_addr);
-struct sup_page_table_entry *add_file_sup_page (void *upage, struct file *file,
-                                                off_t ofs, uint32_t read_bytes,
-                                                uint32_t zero_bytes,
-                                                bool writable);
-void remove_sup_page (struct sup_page_table_entry *spte);
+struct sup_page_table_entry *sup_page_table_add (void *fault_addr);
+struct sup_page_table_entry *sup_page_table_add_file (void *upage,
+                                                      struct file *file,
+                                                      off_t ofs,
+                                                      uint32_t read_bytes,
+                                                      uint32_t zero_bytes,
+                                                      bool writable);
+void sup_page_table_remove (struct sup_page_table_entry *spte);
 void sup_page_table_destroy (void);
-struct sup_page_table_entry *find_page (void *fault_addr);
+struct sup_page_table_entry *sup_page_table_find (void *fault_addr);
 #endif

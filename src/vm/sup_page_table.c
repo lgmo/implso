@@ -27,7 +27,7 @@ sup_page_less (const struct hash_elem *a, const struct hash_elem *b,
 }
 
 struct sup_page_table_entry *
-find_page (void *fault_addr) //tenta achar a página na tabela sup através do endereço de fault address
+sup_page_table_find (void *fault_addr)
 {
     struct sup_page_table_entry aux;
 
@@ -48,7 +48,7 @@ find_page (void *fault_addr) //tenta achar a página na tabela sup através do e
 }
 
 struct sup_page_table_entry *
-add_sup_page (void *fault_addr)
+sup_page_table_add (void *fault_addr)
 {
     struct sup_page_table_entry *spte;
     struct sup_page_table_entry aux;
@@ -95,8 +95,9 @@ add_sup_page (void *fault_addr)
 }
 
 struct sup_page_table_entry *
-add_file_sup_page (void *upage, struct file *file, off_t ofs,
-                   uint32_t read_bytes, uint32_t zero_bytes, bool writable)
+sup_page_table_add_file (void *upage, struct file *file, off_t ofs,
+                         uint32_t read_bytes, uint32_t zero_bytes,
+                         bool writable)
 {
     struct sup_page_table_entry aux;
     struct sup_page_table_entry *spte;
@@ -132,7 +133,7 @@ add_file_sup_page (void *upage, struct file *file, off_t ofs,
 }
 
 void
-remove_sup_page (struct sup_page_table_entry *spte)
+sup_page_table_remove (struct sup_page_table_entry *spte)
 {
     hash_delete (&thread_current ()->sup_page_table, &spte->hash_elem);
     free (spte);
