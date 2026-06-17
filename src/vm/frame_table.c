@@ -20,7 +20,20 @@ frame_table_init (void)
 }
 
 void
-frame_table_insert (struct frame_table_entry *fte)
+frame_table_destroy (void)
+{
+    lock_acquire (&frame_table_lock);
+    while (!list_empty (&frame_table))
+        {
+            struct frame_table_entry *fte = list_entry (
+                list_pop_front (&frame_table), struct frame_table_entry, elem);
+            free (fte);
+        }
+    lock_release (&frame_table_lock);
+}
+
+void
+insert_in_frame_table (struct frame_table_entry *fte)
 {
     lock_acquire (&frame_table_lock);
     list_push_back (&frame_table, &(fte->elem));
@@ -28,7 +41,7 @@ frame_table_insert (struct frame_table_entry *fte)
 }
 
 struct frame_table_entry *
-frame_table_add (uint32_t *frame)
+add_frame (uint32_t *frame)
 {
     struct frame_table_entry *fte
         = (struct frame_table_entry *)malloc (sizeof *fte);
@@ -37,12 +50,12 @@ frame_table_add (uint32_t *frame)
     fte->frame = frame;
     fte->owner = thread_current ();
     fte->aux = NULL;
-    frame_table_insert (fte);
+    insert_in_frame_table (fte);
     return fte;
 }
 
 void
-frame_table_remove (struct frame_table_entry *fte)
+remove_frame (struct frame_table_entry *fte)
 {
     lock_acquire (&frame_table_lock);
     list_remove (&fte->elem);
@@ -50,8 +63,29 @@ frame_table_remove (struct frame_table_entry *fte)
     free (fte);
 }
 
+struct frame_table_entry *
+find_frame (void *frame, struct thread *owner)
+{
+    struct list_elem *e;
+
+    lock_acquire (&frame_table_lock);
+    for (e = list_begin (&frame_table); e != list_end (&frame_table);
+         e = list_next (e))
+        {
+            struct frame_table_entry *fte
+                = list_entry (e, struct frame_table_entry, elem);
+            if (fte->frame == frame && fte->owner == owner)
+                {
+                    lock_release (&frame_table_lock);
+                    return fte;
+                }
+        }
+    lock_release (&frame_table_lock);
+    return NULL;
+}
+
 bool
-frame_table_remove_by_kpage (void *frame, struct thread *owner)
+remove_frame_by_kpage (void *frame, struct thread *owner)
 {
     struct list_elem *e;
 
@@ -74,7 +108,7 @@ frame_table_remove_by_kpage (void *frame, struct thread *owner)
 }
 
 struct frame_table_entry *
-frame_table_pop_lru (void)
+pop_lru_frame (void)
 {
     struct list_elem *elem;
     struct frame_table_entry *fte = NULL;
@@ -89,23 +123,24 @@ frame_table_pop_lru (void)
                  elem = list_next (elem))
                 {
                     aux = list_entry (elem, struct frame_table_entry, elem);
-                    if (aux->aux == NULL || !aux->aux->is_loaded)
+                    if (aux->aux == NULL || !aux->aux->is_loaded) // n da pra ser evictado
                         continue;
 
-                    if (aux->owner == NULL || aux->owner->pagedir == NULL)
+                    if (aux->owner == NULL || aux->owner->pagedir == NULL) // nda pra ser evictado
                         continue;
 
                     if (pagedir_is_accessed (aux->owner->pagedir,
-                                             aux->aux->user_vaddr))
+                                             aux->aux->user_vaddr)) //se a página foi acessada
                         {
                             pagedir_set_accessed (aux->owner->pagedir,
-                                                  aux->aux->user_vaddr, false);
+                                                  aux->aux->user_vaddr, false); // zera o bit de acesso
+                            aux->aux->accessed = true;
                             aux->aux->access_time = now;
                             continue;
                         }
 
-                    if (!fte || aux->aux->access_time < fte->aux->access_time)
-                        fte = aux;
+                    if (!fte || aux->aux->access_time < fte->aux->access_time) //se não tem fte ou tem e a página atual foi acessada a menos tempo
+                        fte = aux; // fte recebe a página atual
                 }
         }
 
@@ -119,7 +154,7 @@ frame_table_pop_lru (void)
 }
 
 void
-frame_table_remove_owner_frames (struct thread *owner)
+remove_owner_frames (struct thread *owner)// remove as páginas do thread que vai ser deletado
 {
     struct list_elem *e;
     struct list_elem *next;
