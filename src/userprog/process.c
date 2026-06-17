@@ -28,6 +28,7 @@
 struct start_process_args {
   char *cmd_line;
   struct exit_state *exit_state;
+  struct dir *parent_cwd;
 };
 
 static thread_func start_process NO_RETURN;
@@ -69,6 +70,7 @@ process_execute (const char *file_name)
   }
   args->cmd_line = fn_copy;
   args->exit_state = child_exit_state;
+  args->parent_cwd = thread_current ()->cwd;
 
   /* Create a new thread to execute FILE_NAME. */
   char thread_name[16];
@@ -108,6 +110,13 @@ start_process (void *file_name_)
   hash_init (&thread_current ()->sup_page_table, sup_page_hash, sup_page_less,
              NULL);
   thread_current ()->sup_page_table_initialized = true;
+
+  /* Inherit parent's current working directory. */
+  if (args->parent_cwd != NULL)
+    thread_current ()->cwd = dir_reopen (args->parent_cwd);
+  else
+    thread_current ()->cwd = dir_open_root ();
+
   bool success;
 
   /* Initialize interrupt frame and load executable. */
@@ -183,6 +192,13 @@ process_exit (void)
   uint32_t *pd;
 
   memory_mapping_table_unmap_all (cur, &cur->mmap_table);
+
+  /* Close current working directory. */
+  if (cur->cwd != NULL)
+    {
+      dir_close (cur->cwd);
+      cur->cwd = NULL;
+    }
 
   if (cur->exe != NULL)
     {

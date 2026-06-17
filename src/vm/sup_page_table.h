@@ -48,3 +48,4 @@ void sup_page_table_remove (struct sup_page_table_entry *spte);
 void sup_page_table_destroy (void);
 struct sup_page_table_entry *sup_page_table_find (void *fault_addr);
 #endif
+#endif
