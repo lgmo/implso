@@ -6,7 +6,7 @@
 #include "threads/vaddr.h"
 #include <stdint.h>
 #include <stdlib.h>
-
+// 
 unsigned
 sup_page_hash (const struct hash_elem *elem, void *aux UNUSED)
 {
@@ -27,18 +27,18 @@ sup_page_less (const struct hash_elem *a, const struct hash_elem *b,
 }
 
 struct sup_page_table_entry *
-sup_page_table_find (void *fault_addr)
+find_page (void *fault_addr) //tenta achar a página na tabela sup através do endereço de fault address
 {
     struct sup_page_table_entry aux;
 
-    struct thread *t = thread_current ();
+    struct thread *t = thread_current (); 
 
     struct hash_elem *elem;
 
     void *upage = pg_round_down (fault_addr);
 
     aux.user_vaddr = upage;
-    elem = hash_find (&t->sup_page_table, &aux.hash_elem);
+    elem = hash_find (&t->sup_page_table, &aux.hash_elem); 
 
     if (!elem)
         {
@@ -48,7 +48,7 @@ sup_page_table_find (void *fault_addr)
 }
 
 struct sup_page_table_entry *
-sup_page_table_add (void *fault_addr)
+add_sup_page (void *fault_addr)
 {
     struct sup_page_table_entry *spte;
     struct sup_page_table_entry aux;
@@ -70,6 +70,8 @@ sup_page_table_add (void *fault_addr)
 
     spte->user_vaddr = upage;
     spte->access_time = 0;
+    spte->dirty = false;
+    spte->accessed = false;
     spte->is_loaded = true;
     spte->source = ZERO;
     spte->swap_slot_index = BITMAP_ERROR;
@@ -93,9 +95,8 @@ sup_page_table_add (void *fault_addr)
 }
 
 struct sup_page_table_entry *
-sup_page_table_add_file (void *upage, struct file *file, off_t ofs,
-                         uint32_t read_bytes, uint32_t zero_bytes,
-                         bool writable)
+add_file_sup_page (void *upage, struct file *file, off_t ofs,
+                   uint32_t read_bytes, uint32_t zero_bytes, bool writable)
 {
     struct sup_page_table_entry aux;
     struct sup_page_table_entry *spte;
@@ -114,6 +115,8 @@ sup_page_table_add_file (void *upage, struct file *file, off_t ofs,
 
     spte->user_vaddr = upage;
     spte->access_time = 0;
+    spte->dirty = false;
+    spte->accessed = false;
     spte->is_loaded = false;
     spte->source = FILE_BACKED;
     spte->swap_slot_index = BITMAP_ERROR;
@@ -129,7 +132,7 @@ sup_page_table_add_file (void *upage, struct file *file, off_t ofs,
 }
 
 void
-sup_page_table_remove (struct sup_page_table_entry *spte)
+remove_sup_page (struct sup_page_table_entry *spte)
 {
     hash_delete (&thread_current ()->sup_page_table, &spte->hash_elem);
     free (spte);
